@@ -130,7 +130,7 @@ function bubbleSortAnimator(i) {
     chart.appendChild(secondBar);
     chart.appendChild(firstBar);
   }
-}
+};
 
 function selectionSort(arrToSort, beginIndex, count) {
   if( beginIndex === undefined ) {
@@ -184,13 +184,13 @@ function selectionAnimator(beginIndex, minIndex) {
   var nextOfMinNumBar = chart.childNodes[minIndex+2];
   var minNumBar = chart.childNodes[minIndex+1];
 
-    if( chart.childNodes[beginIndex+2] ) {
-      chart.insertBefore(minNumBar, toBeChanged);
-      chart.insertBefore(toBeChanged, nextOfMinNumBar);
-    } else {
-      chosenBefore[0].setAttribute('class', 'barsInChart');
-      chosenBefore[1].setAttribute('class', 'barsInChart');
-    }
+  if( chart.childNodes[beginIndex+2] ) {
+    chart.insertBefore(minNumBar, toBeChanged);
+    chart.insertBefore(toBeChanged, nextOfMinNumBar);
+  } else {
+    chosenBefore[0].setAttribute('class', 'barsInChart');
+    chosenBefore[1].setAttribute('class', 'barsInChart');
+  }
 };
 
 function insurtionSort(arrToSort) {
@@ -281,24 +281,60 @@ function barLander_insurtion(landingIndex) {
 var mergeSort = {
   chart: document.querySelector('.chart'),
   animationList: [],
-  arrToSort: null,
+  arrToSort: null
 };
 
-mergeSort.sort = function (arrToSort) {
-  if( this.arrToSort === null ) {
-    this.arrToSort = arrToSort;
+mergeSort.sort = function(arrToSort, range) {
+  if( typeof range === 'undefined' ) {
+    range = [0,arrToSort.length-1];
   }
-  var indexToDivide = Math.floor(arrToSort.length/2);
-  var left = arrToSort.slice(0, indexToDivide);
-  var right = arrToSort.slice(indexToDivide);
-
-  if( arrToSort.length > 1 ) {
-    this.animationList.push(mergeSort.divideAnimator.bind(this, this.arrToSort, arrToSort, indexToDivide));
-
-    return this.merger( this.sort(left), this.sort(right) );
+  var mid = Math.floor(range[0]+(range[1]-range[0])/2);
+  var left = [range[0], mid];
+  var right = [mid+1, range[1]];
+  if( range[1] - range[0] === 0 ) {
+    return range;
   } else {
+    return this.merger(this.sort(arrToSort, left), this.sort(arrToSort, right), arrToSort);
+  }
+};
 
+mergeSort.merger = function(left, right, arrToSort) {
+  var leftArrCopy = arrToSort.slice(left[0], left[1]+1);
+  var rightArrCopy = arrToSort.slice(right[0], right[1]+1);
+  var originLeftLength = leftArrCopy.length;
+  var originRightLength = rightArrCopy.length;
+  var temp = [];
+  var tempIndex = [];
+  var count = 0;
+
+  while ( leftArrCopy.length !== 0 || rightArrCopy.length !== 0 ) {
+    if( rightArrCopy.length === 0 && leftArrCopy.length > 0 ) {
+      temp.push(leftArrCopy.splice(0,1)[0]);
+      var countOfPush = originLeftLength-leftArrCopy.length;
+      tempIndex.push(left[0]+countOfPush-1);
+    } else if( leftArrCopy.length === 0 && rightArrCopy.length > 0 ) {
+      temp.push(rightArrCopy.splice(0,1)[0]);
+      var countOfPush = originRightLength-rightArrCopy.length;
+      tempIndex.push(right[0]+countOfPush-1);
+    } else if( leftArrCopy[0] >= rightArrCopy[0] ) {
+      temp.push(rightArrCopy.splice(0, 1)[0]);
+      var countOfPush = originRightLength-rightArrCopy.length;
+      tempIndex.push(right[0]+countOfPush-1);
+    } else if( leftArrCopy[0] < rightArrCopy[0] ) {
+      temp.push(leftArrCopy.splice(0, 1)[0]);
+      var countOfPush = originLeftLength-leftArrCopy.length;
+      tempIndex.push(left[0]+countOfPush-1);
+    }
+  }
+  for( var i = left[0]; i < right[1]+1; i++ ) {
+    console.log('before: ',i, arrToSort[i],'after: ',tempIndex[count], temp[count]);
+    arrToSort[i] = temp[count];
+    count++;
+  }
+  if( arrToSort.length === right[1]-left[0]+1 ) {
     return arrToSort;
+  } else {
+    return [left[0], right[1]];
   }
 };
 
@@ -309,31 +345,11 @@ mergeSort.timingSetter = function() {
     setTimeout(this.animationList[i], count);
     count += 1000;
   }
-}
-
-mergeSort.merger = function (left, right) {
-  var newArr = [];
-  var leftIndex = this.arrToSort.indexOf(left)+1;
-  var rightIndex = this.arrToSort.indexOf(right)+1;
-
-  while ( left.length !== 0 || right.length !== 0 ) {
-    if( right.length === 0 && left.length > 0 ) {
-      newArr.push(left.splice(0,1)[0]);
-    } else if( left.length === 0 && right.length > 0 ) {
-      newArr.push(right.splice(0,1)[0]);
-    } else if( left[0] >= right[0] ) {
-      newArr.push(right.splice(0, 1)[0]);
-    } else if( left[0] < right[0] ) {
-      newArr.push(left.splice(0, 1)[0]);
-    }
-  }
-
-  return newArr;
 };
 
 mergeSort.highLighter = function() {
   this.chart.childNodes;
-}
+};
 
 mergeSort.divideAnimator = function(arrToSort, currentArr, indexToDivide) {
   var basicHeight = 30;
@@ -345,4 +361,4 @@ mergeSort.divideAnimator = function(arrToSort, currentArr, indexToDivide) {
 };
 
 mergeSort.mergeAnimator = function(arrToSort, currentArr, indexToDivide) {
-}
+};
