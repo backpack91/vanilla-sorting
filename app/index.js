@@ -148,7 +148,7 @@ function selectionSort(arrToSort, beginIndex, count) {
       minIndex = i;
     }
   }
-  setTimeout(showCurrentbarselection.bind(null, beginIndex, minIndex), count);
+  setTimeout(showCurrentbarSelection.bind(null, beginIndex, minIndex), count);
   count += 1000;
   setTimeout(selectionAnimator.bind(null, beginIndex, minIndex),count);
   arrToSort[beginIndex] = min;
@@ -161,7 +161,7 @@ function selectionSort(arrToSort, beginIndex, count) {
   }
 };
 
-function showCurrentbarselection(beginIndex, minIndex) {
+function showCurrentbarSelection(beginIndex, minIndex) {
   if( chosenBefore.length ){
     chosenBefore[0].setAttribute('class', 'barsInChart');
     chosenBefore[1].setAttribute('class', 'barsInChart');
@@ -206,23 +206,23 @@ function insurtionSort(arrToSort) {
     var standardNum = arrToSort[i];
     setTimeout(showCurrentbarInsurtion.bind(null,i), count);
     count += 500;
-    setTimeout(flyMaker_insurtion.bind(null,i), count);
+    setTimeout(flyMakerInsurtion.bind(null,i), count);
     count += 500;
     for ( var j = i-1; j >= 0; j-- ) {
       setTimeout(showCurrentbarInsurtion.bind(null,j), count);
       count += 500;
       if ( arrToSort[j] >=  standardNum ) {
         arrToSort[j+1] = arrToSort[j];
-        setTimeout(barMover_insurtion.bind(null,i,j), count);
+        setTimeout(barMoverInsurtion.bind(null,i,j), count);
         count += 500;
         if( j === 0 ) {
           arrToSort[j] = standardNum;
-          setTimeout(barLander_insurtion.bind(null,j), count);
+          setTimeout(barLanderInsurtion.bind(null,j), count);
           count += 500;
         }
       } else if ( arrToSort[j] < standardNum ) {
         arrToSort[j+1] = standardNum;
-        setTimeout(barLander_insurtion.bind(null,j+1), count);
+        setTimeout(barLanderInsurtion.bind(null,j+1), count);
         count += 500;
         break;
       }
@@ -246,7 +246,7 @@ function showCurrentbarInsurtion(standardIndex) {
   standardBar.setAttribute('class', 'chosenBar');
 };
 
-function barMover_insurtion(standardIndex, comparingIndex) {
+function barMoverInsurtion(standardIndex, comparingIndex) {
   var chart = document.querySelector('.chart');
   var standardBar = chart.childNodes[standardIndex+1];
   var nextOfStandard = chart.childNodes[comparingIndex+3];
@@ -255,7 +255,7 @@ function barMover_insurtion(standardIndex, comparingIndex) {
   chart.insertBefore(comparingBar, nextOfStandard);
 };
 
-function flyMaker_insurtion(flyingBarIndex) {
+function flyMakerInsurtion(flyingBarIndex) {
   var chart = document.querySelector('.chart');
   var flyingBar = chart.childNodes[flyingBarIndex+1];
   var nextOfFlyingBar = chart.childNodes[flyingBarIndex+2];
@@ -268,7 +268,7 @@ function flyMaker_insurtion(flyingBarIndex) {
   extraChart.appendChild(flyingBar);
 };
 
-function barLander_insurtion(landingIndex) {
+function barLanderInsurtion(landingIndex) {
   var chart = document.querySelector('.chart');
   var extraChart = document.querySelector('.extraChart');
   var flyingBar = extraChart.childNodes[0];
