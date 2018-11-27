@@ -1,13 +1,46 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <style>
+  @import url('https://fonts.googleapis.com/css?family=Permanent+Marker|Source+Code+Pro');
+  </style>
 </head>
 <body>
-    <div class="content">
-        <h1>Boilerplate</h1>
+  <div class="header">
+    <div class="blank"></div>
+    <div class="title">
+      <div>Sort Visualizer</div>
     </div>
+    <div class="selector">
+      <div id="numberOfBars" class="menu">
+        <div class="inputWrapper">
+          <input class="numberInput" type="text" name="" value="">
+          <button class="inputButton" type="button" name="button">입력</button>
+        </div>
+      </div>
+      <div id="sortChooserWrapper" class="menu">
+        <!-- <label for="sortChooser" class="sortChooser">Choose Sort: </label> -->
+        <select id="sortChooser">
+          <option value="">--Choose_Sorts--</option>
+          <option value="bubble">Bubble Sort</option>
+          <option value="insurtion">Insertioin Sort</option>
+          <option value="merge">Merge Sort</option>
+          <option value="selection">Selection Sort</option>
+        </select>
+      </div>
+      <button type="button" name="button" class="menu" id="startButt">Start!</button>
+    </div>
+  </div>
+  <div class="main">
+    <div class="chartWrapper">
+      <div class="chart">
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+  </div>
 </body>
 </html>

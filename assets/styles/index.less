@@ -2,9 +2,246 @@
 // but allowing components to change
 // http://www.paulirish.com/2012/box-sizing-border-box-ftw/
 html, body {
+    width: 100%;
+    height: 100%;
     box-sizing: border-box;
-    background-color: pink;
+    background-color: purple;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 *, *:before, *:after {
     box-sizing: inherit;
+}
+.header {
+  width: 100%;
+  height: 20%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+}
+
+.inputWrapper {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Permanent Maker', cursive;
+  font-family: 'Source Code Pro', monospace;
+}
+
+.numberInput {
+  border: none;
+  border-radius: 5px 0 0 5px;
+  width: 150px;
+  height: 30px;
+  background-color: white;
+  font-size: 20px;
+  color: purple;
+}
+
+.inputButton {
+  border: none;
+  background-color: white;
+  border-radius: 0px 5px 5px 0px;
+  height: 30px;
+  width: 20px;
+  background-color: orange;
+  color: purple;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.sortChooser {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+#sortChooser {
+  border: none;
+  width: 170px;
+  height: 30px;
+  font-size: 15px;
+  color: purple;
+  font-weight: 700;
+  font-family: 'Permanent Maker', cursive;
+  font-family: 'Source Code Pro', monospace;
+}
+
+#startButt {
+  border: none;
+  width: 170px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 20px;
+  color: purple;
+  font-weight: 700;
+  box-shadow: inset 0 2px 70px orange;
+}
+
+.menu {
+  font-weight: 400;
+}
+
+.title {
+  width: 50%;
+  height: 100%;
+  text-align: center;
+  color: orange;
+  font-size: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 900;
+  font-family: 'Permanent Maker', cursive;
+  font-family: 'Source Code Pro', monospace;
+  text-shadow: 4px 2px 2px gray;
+}
+
+.blank {
+  width: 25%;
+  height: 100%;
+}
+
+.selector {
+  width: 25%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  font-size: 20px;
+  color: white;
+  font-weight: 200;
+}
+
+.main {
+  width: 100%;
+  height: 70%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer {
+  width: 100%;
+  height: 10%;
+}
+
+.chartWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.chart {
+  padding: 0 0 0.5% 0;
+  width: 80%;
+  height: 80%;
+  background-color: #E2E7EA;
+  border-radius: 5px 5px 5px 5px ;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-top: 15px;
+}
+
+.extraChart {
+  padding: 0 0 0.5% 0;
+  width: 80%;
+  height: 40%;
+  background-color: #E2E7EA;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 15px;
+  border-radius: 0 0 5px 5px;
+}
+
+.chartForMerge {
+  padding: 0 10% 1% 10%;
+  width: 100%;
+  height: 80%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+
+}
+
+.barsInChart {
+  width: 40px;
+  background-color: yellow;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px orange;
+}
+
+// .barsInChartForInsurtion {
+//   width: 40px;
+//   background-color: yellow;
+//   margin: 10px;
+//   position: absolute;
+//   display: flex;
+//   justify-content: center;
+//   align-items: flex-end;
+//   border-radius: 10px;
+// }
+
+.chosenBar {
+  width: 40px;
+  background-color: yellowgreen;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px orange;
+}
+
+.finishedBar {
+  width: 40px;
+  background-color: orange;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  border-radius: 10px;
+}
+
+.numBox {
+  font-size: 20px;
+  color: gray;
+  font-weight: 500;
+}
+
+.mergeNumBox {
+  font-size: 20px;
+  background-color: orange;
+  color: gray;
+  font-weight: 500;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding-top: 4px;
+  margin: 2px;
+  border-radius: 10px;
+  // transform: translate(-20px, 20px);
+  transition: all 300ms ease-in-out;
+}
+
+.spaceContainer {
+  width: 40px;
+  background-color: white;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  border-radius: 10px;
 }
