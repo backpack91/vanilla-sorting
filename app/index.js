@@ -11,28 +11,22 @@ var chosenBefore = [];
 function inputNumBarMaker(numbersToMakeBars) {
   var sortOptions = document.querySelector('#sortChooser');
   var biggestOne = numbersToMakeBars.reduce(function(acc, ele) {
-    if( ele > acc ) {
-
-      return ele;
-    } else {
-
-      return acc;
-    }
+    return ele > acc ? ele : acc;
   }, numbersToMakeBars[0]);
   for( var i = 0; i < numbersToMakeBars.length; i++ ) {
     var barInChart = document.createElement('div');
     var numBox = document.createElement('div');
     var chart = document.querySelector('.chart');
-    var heightRateOfBar = (numbersToMakeBars[i]/biggestOne*100)-10;
+    var heightRateOfBar = ( numbersToMakeBars[i] / biggestOne * 100 ) - 10;
 
-    numBox.setAttribute('class', 'numBox');
+    numBox.classList.add('numBox');
     numBox.innerText = numbersToMakeBars[i] + '';
-    barInChart.setAttribute('class', 'barsInChart');
-    barInChart.setAttribute('style', `height: ${heightRateOfBar}%;`);
+    barInChart.classList.add('barsInChart');
+    barInChart.style.height = `${heightRateOfBar}%`;
     barInChart.appendChild(numBox);
     chart.appendChild(barInChart);
   }
-};
+}
 
 (function numberPutter () {
   var inputButton = document.querySelector('.inputButton');
@@ -62,75 +56,95 @@ function chooseSort() {
 
   if( options.value === 'bubble') {
     bubbleSort(numberCollector);
-  } else if( options.value === 'insurtion' ) {
-    insurtionSort(numberCollector);
+  } else if( options.value === 'insertion' ) {
+    insertionSort(numberCollector);
   } else if( options.value === 'merge' ) {
     mergeSort.sort(numberCollector);
     mergeSort.timingSetter();
   } else if( options.value === 'selection' ) {
     selectionSort(numberCollector);
   }
-};
+}
 
 function bubbleSort(arrToSort) {
   var count = 1000;
 
-  for( var j = arrToSort.length; j >= 0; j-- ) {
+  for( var j = arrToSort.length; j >= 2; j-- ) {
     for( var i = 0; i < j-1; i++ ) {
       if( i !== j-1 && arrToSort[i] > arrToSort[i+1] ) {
         var valueStorage = arrToSort[i];
         arrToSort[i] = arrToSort[i+1];
         arrToSort[i+1] = valueStorage;
-        setTimeout(bubbleSortAnimator.bind(null, i+1), count);
+        setTimeout(barExchanger.bind(null, i), count);
         count += 1000;
       } else {
-        setTimeout(showCurrentbar.bind(null, i+1), count);
+        setTimeout(showCurrentbar.bind(null, i), count);
         count += 1000;
       }
     }
   }
-};
+  setTimeout(unchooseBar.bind(null, i-1), count);
+}
 
 function showCurrentbar(i) {
   var chart = document.querySelector('.chart');
-  var firstBar = chart.childNodes[i];
-  var secondBar = chart.childNodes[i+1];
-  var thirdBar = chart.childNodes[i+2];
+  var firstBar = chart.children[i];
+  var secondBar = chart.children[i+1];
+  var thirdBar = chart.children[i+2];
 
   if( chosenBefore.length ){
-    chosenBefore[0].setAttribute('class', 'barsInChart');
-    chosenBefore[1].setAttribute('class', 'barsInChart');
+    chosenBefore[0].classList.remove('chosenBar');
+    chosenBefore[1].classList.remove('chosenBar');
+    chosenBefore[0].classList.add('barsInChart');
+    chosenBefore[1].classList.add('barsInChart');
     chosenBefore.length = 0;
   }
   chosenBefore.push(firstBar);
   chosenBefore.push(secondBar);
-  firstBar.setAttribute('class', 'chosenBar');
-  secondBar.setAttribute('class', 'chosenBar');
-};
+  firstBar.classList.remove('barsInChart');
+  secondBar.classList.remove('barsInChart');
+  firstBar.classList.add('chosenBar');
+  secondBar.classList.add('chosenBar');
+}
 
-function bubbleSortAnimator(i) {
+function barExchanger(i) {
   if( chosenBefore.length ){
-    chosenBefore[0].setAttribute('class', 'barsInChart');
-    chosenBefore[1].setAttribute('class', 'barsInChart');
+    chosenBefore[0].classList.remove('chosenBar');
+    chosenBefore[1].classList.remove('chosenBar');
+    chosenBefore[0].classList.add('barsInChart');
+    chosenBefore[1].classList.add('barsInChart');
     chosenBefore.length = 0;
-  };
+  }
   var chart = document.querySelector('.chart');
-  var firstBar = chart.childNodes[i];
-  var secondBar = chart.childNodes[i+1];
-  var thirdBar = chart.childNodes[i+2];
+  var firstBar = chart.children[i];
+  var secondBar = chart.children[i+1];
+  var thirdBar = chart.children[i+2];
 
   chosenBefore.push(firstBar);
   chosenBefore.push(secondBar);
-  firstBar.setAttribute('class', 'chosenBar');
-  secondBar.setAttribute('class', 'chosenBar');
-  if( chart.childNodes[i+2] ) {
+  firstBar.classList.remove('barsInChart');
+  secondBar.classList.remove('barsInChart');
+  firstBar.classList.add('chosenBar');
+  secondBar.classList.add('chosenBar');
+  if( chart.children[i+2] ) {
     chart.insertBefore(firstBar, thirdBar);
     chart.insertBefore(secondBar, firstBar);
   } else {
     chart.appendChild(secondBar);
     chart.appendChild(firstBar);
   }
-};
+}
+
+function unchooseBar(i) {
+  var chart = document.querySelector('.chart');
+  var firstBar = chart.children[i];
+  var secondBar = chart.children[i+1];
+
+  firstBar.classList.remove('chosenBar');
+  secondBar.classList.remove('chosenBar');
+  firstBar.classList.add('barsInChart');
+  secondBar.classList.add('barsInChart');
+}
 
 function selectionSort(arrToSort, beginIndex, count) {
   if( beginIndex === undefined ) {
@@ -150,7 +164,7 @@ function selectionSort(arrToSort, beginIndex, count) {
   }
   setTimeout(showCurrentbarSelection.bind(null, beginIndex, minIndex), count);
   count += 1000;
-  setTimeout(selectionAnimator.bind(null, beginIndex, minIndex),count);
+  setTimeout(selectedBarExchanger.bind(null, beginIndex, minIndex),count);
   arrToSort[beginIndex] = min;
   arrToSort[minIndex] = eleToExchange;
   if( beginIndex+1 !== arrToSort.length ) {
@@ -159,133 +173,147 @@ function selectionSort(arrToSort, beginIndex, count) {
 
     return arrToSort;
   }
-};
+}
 
 function showCurrentbarSelection(beginIndex, minIndex) {
   if( chosenBefore.length ){
-    chosenBefore[0].setAttribute('class', 'barsInChart');
-    chosenBefore[1].setAttribute('class', 'barsInChart');
+    chosenBefore[0].classList.remove('chosenBar');
+    chosenBefore[1].classList.remove('chosenBar');
+    chosenBefore[0].classList.add('barsInChart');
+    chosenBefore[1].classList.add('barsInChart');
     chosenBefore.length = 0;
-  };
+  }
   var chart = document.querySelector('.chart');
-  var toBeChanged = chart.childNodes[beginIndex+1];
-  var nextOfMinNumBar = chart.childNodes[minIndex+2];
-  var minNumBar = chart.childNodes[minIndex+1];
+  var toBeChanged = chart.children[beginIndex];
+  var nextOfMinNumBar = chart.children[minIndex];
+  var minNumBar = chart.children[minIndex];
 
   chosenBefore.push(toBeChanged);
   chosenBefore.push(minNumBar);
-  toBeChanged.setAttribute('class', 'chosenBar');
-  minNumBar.setAttribute('class', 'chosenBar');
-};
+  toBeChanged.classList.remove('barsInChart');
+  minNumBar.classList.remove('barsInChart');
+  toBeChanged.classList.add('chosenBar');
+  minNumBar.classList.add('chosenBar');
+}
 
-function selectionAnimator(beginIndex, minIndex) {
+function selectedBarExchanger(beginIndex, minIndex) {
   var chart = document.querySelector('.chart');
-  var toBeChanged = chart.childNodes[beginIndex+1];
-  var nextOfMinNumBar = chart.childNodes[minIndex+2];
-  var minNumBar = chart.childNodes[minIndex+1];
+  var toBeChanged = chart.children[beginIndex];
+  var nextOfMinNumBar = chart.children[minIndex+1];
+  var minNumBar = chart.children[minIndex];
 
-  if( chart.childNodes[beginIndex+2] ) {
+  if( chart.children[beginIndex+1] ) {
     chart.insertBefore(minNumBar, toBeChanged);
     chart.insertBefore(toBeChanged, nextOfMinNumBar);
   } else {
-    chosenBefore[0].setAttribute('class', 'barsInChart');
-    chosenBefore[1].setAttribute('class', 'barsInChart');
+    chosenBefore[0].classList.remove('chosenBar');
+    chosenBefore[1].classList.remove('chosenBar');
+    chosenBefore[0].classList.add('barsInChart');
+    chosenBefore[1].classList.add('barsInChart');
   }
-};
+}
 
-function insurtionSort(arrToSort) {
+function insertionSort(arrToSort) {
   var chartWrapper = document.querySelector('.chartWrapper');
   var extraChart = document.createElement('div');
   var chart = document.querySelector('.chart');
-  extraChart.setAttribute('class', 'extraChart');
+  extraChart.classList.add('extraChart');
   chartWrapper.appendChild(extraChart);
-  chart.setAttribute('style', 'border-radius: 5px 5px 0 0 ;');
+  chart.classList.add('chartForInsertion');
   var count = 1000;
 
   for ( var i = 1; i < arrToSort.length; i++ ) {
     var standardNum = arrToSort[i];
-    setTimeout(showCurrentbarInsurtion.bind(null,i), count);
+    setTimeout(showCurrentbarInsertion.bind(null,i), count);
     count += 500;
-    setTimeout(flyMakerInsurtion.bind(null,i), count);
+    setTimeout(flyMaker.bind(null,i), count);
     count += 500;
     for ( var j = i-1; j >= 0; j-- ) {
-      setTimeout(showCurrentbarInsurtion.bind(null,j), count);
+      setTimeout(showCurrentbarInsertion.bind(null,j), count);
       count += 500;
       if ( arrToSort[j] >=  standardNum ) {
         arrToSort[j+1] = arrToSort[j];
-        setTimeout(barMoverInsurtion.bind(null,i,j), count);
+        setTimeout(barMover.bind(null,i,j), count);
         count += 500;
         if( j === 0 ) {
           arrToSort[j] = standardNum;
-          setTimeout(barLanderInsurtion.bind(null,j), count);
+          setTimeout(barLander.bind(null,j), count);
           count += 500;
         }
       } else if ( arrToSort[j] < standardNum ) {
         arrToSort[j+1] = standardNum;
-        setTimeout(barLanderInsurtion.bind(null,j+1), count);
+        setTimeout(barLander.bind(null,j+1), count);
         count += 500;
         break;
       }
     }
   }
-  setTimeout(function(){chosenBefore[0].setAttribute('class', 'barsInChart')}, count);
-  setTimeout(function(){document.querySelector('.extraChart').remove()}, count);
+  setTimeout(function(){
+    document.querySelector('.extraChart').remove();
+    chosenBefore[0].classList.remove('chosenBar');
+    chosenBefore[0].classList.add('barsInChart');}, count);
 
   return arrToSort;
-};
+}
 
-function showCurrentbarInsurtion(standardIndex) {
+function showCurrentbarInsertion(standardIndex) {
   var chart = document.querySelector('.chart');
-  var standardBar = chart.childNodes[standardIndex+1];
+  var standardBar = chart.children[standardIndex];
 
   if( chosenBefore.length ){
-    chosenBefore[0].setAttribute('class', 'barsInChart');
+    chosenBefore[0].classList.remove('chosenBar');
+    chosenBefore[0].classList.add('barsInChart');
     chosenBefore.length = 0;
   }
   chosenBefore.push(standardBar);
-  standardBar.setAttribute('class', 'chosenBar');
-};
+  standardBar.classList.remove('barsInChart');
+  standardBar.classList.add('chosenBar');
+}
 
-function barMoverInsurtion(standardIndex, comparingIndex) {
+function barMover(standardIndex, comparingIndex) {
   var chart = document.querySelector('.chart');
-  var standardBar = chart.childNodes[standardIndex+1];
-  var nextOfStandard = chart.childNodes[comparingIndex+3];
-  var comparingBar = chart.childNodes[comparingIndex+1];
+  var standardBar = chart.children[standardIndex];
+  var nextOfStandard = chart.children[comparingIndex+2];
+  var comparingBar = chart.children[comparingIndex];
 
   chart.insertBefore(comparingBar, nextOfStandard);
-};
+}
 
-function flyMakerInsurtion(flyingBarIndex) {
+function flyMaker(flyingBarIndex) {
   var chart = document.querySelector('.chart');
-  var flyingBar = chart.childNodes[flyingBarIndex+1];
-  var nextOfFlyingBar = chart.childNodes[flyingBarIndex+2];
+  var flyingBar = chart.children[flyingBarIndex];
+  var nextOfFlyingBar = chart.children[flyingBarIndex+1];
   var spaceContainer = document.createElement('div');
   var extraChart = document.querySelector('.extraChart');
 
-  spaceContainer.setAttribute('class', 'spaceContainer');
+  spaceContainer.classList.add('spaceContainer');
   chart.insertBefore(spaceContainer, nextOfFlyingBar);
   chosenBefore.push(flyingBar);
   extraChart.appendChild(flyingBar);
-};
+}
 
-function barLanderInsurtion(landingIndex) {
+function barLander(landingIndex) {
   var chart = document.querySelector('.chart');
   var extraChart = document.querySelector('.extraChart');
-  var flyingBar = extraChart.childNodes[0];
-  var nextOfLandingPoint = chart.childNodes[landingIndex+2];
+  var flyingBar = extraChart.children[0];
+  var nextOfLandingPoint = chart.children[landingIndex+1];
 
-  chart.childNodes[landingIndex+1].remove();
+  chart.children[landingIndex].remove();
   chart.insertBefore(flyingBar, nextOfLandingPoint);
-};
+}
 
 var mergeSort = {
   chart: document.querySelector('.chart'),
-  animationList: [],
-  arrToSort: null
+  arrToSort: null,
+  queue: [],
+  count: 1000,
+  tempIndex: null
 };
 
+
+
 mergeSort.sort = function(arrToSort, range) {
-  if( typeof range === 'undefined' ) {
+  if( range === undefined ) {
     range = [0,arrToSort.length-1];
   }
   var mid = Math.floor(range[0]+(range[1]-range[0])/2);
@@ -294,6 +322,10 @@ mergeSort.sort = function(arrToSort, range) {
   if( range[1] - range[0] === 0 ) {
     return range;
   } else {
+    this.queue.push({
+      type: 'DIVIDE',
+      mid: left[1]
+    });
     return this.merger(this.sort(arrToSort, left), this.sort(arrToSort, right), arrToSort);
   }
 };
@@ -305,7 +337,7 @@ mergeSort.merger = function(left, right, arrToSort) {
   var originRightLength = rightArrCopy.length;
   var temp = [];
   var tempIndex = [];
-  var count = 0;
+  var tmpIndexCount = 0;
 
   while ( leftArrCopy.length !== 0 || rightArrCopy.length !== 0 ) {
     if( rightArrCopy.length === 0 && leftArrCopy.length > 0 ) {
@@ -327,38 +359,127 @@ mergeSort.merger = function(left, right, arrToSort) {
     }
   }
   for( var i = left[0]; i < right[1]+1; i++ ) {
-    console.log('before: ',i, arrToSort[i],'after: ',tempIndex[count], temp[count]);
-    arrToSort[i] = temp[count];
-    count++;
+    if( arrToSort[i] !== temp[tmpIndexCount] ){
+      if ( i === left[0] ) {
+        this.queue.push({
+          type: 'COMPARE',
+          indexRange: [left[0], right[1]]
+        });
+        this.queue.push({
+          type: 'SWAP',
+          indexPair: [i, tempIndex[tmpIndexCount]],
+          range: [left[0], right[1]],
+          temp: tempIndex
+        });
+      }
+      arrToSort[i] = temp[tmpIndexCount];
+      tmpIndexCount++;
+    }
   }
   if( arrToSort.length === right[1]-left[0]+1 ) {
+    this.queue.push({
+      type: 'COMBINE',
+      indexRange: [left[0], right[1]]
+    })
+    this.queue.push({
+      type: 'INPLACE',
+      indexRange: [left[0], right[1]]
+    });
     return arrToSort;
   } else {
+    this.queue.push({
+      type: 'COMBINE',
+      indexRange: [left[0], right[1]]
+    });
+    this.queue.push({
+      type: 'NONCOMPARE',
+      indexRange: [left[0], right[1]]
+    });
     return [left[0], right[1]];
   }
 };
 
 mergeSort.timingSetter = function() {
-  var count = 1000;
-
-  for( var i = 0; i < this.animationList.length; i++ ) {
-    setTimeout(this.animationList[i], count);
-    count += 1000;
+  for( var i = 0; i < this.queue.length; i++ ) {
+    setTimeout(this.visualizer.bind(this, this.queue[i]), this.count);
+    this.count += 500;
   }
 };
 
-mergeSort.highLighter = function() {
-  this.chart.childNodes;
+mergeSort.visualizer = function(data) {
+  switch (data.type) {
+    case 'COMPARE':
+      this.compare(data);
+      break;
+    case 'SWAP' :
+      this.swap(data);
+      break;
+    case 'DIVIDE' :
+      this.divide(data);
+      break;
+    case 'INPLACE' :
+      this.inplace(data);
+      break;
+    case 'COMBINE' :
+      this.combine(data);
+      break;
+    case 'NONCOMPARE' :
+      this.nonCompare(data);
+      break;
+  }
 };
 
-mergeSort.divideAnimator = function(arrToSort, currentArr, indexToDivide) {
-  var basicHeight = 30;
-  var basicWidth = 15;
-  var indexStart = arrToSort.indexOf(currentArr[0]);
-
-  this.chart.childNodes[indexStart+indexToDivide+1].setAttribute('style', 'margin:0 0 0 30px;');
-  this.lengthCounter += 1;
+mergeSort.compare = function(data) {
+  for ( var i = data.indexRange[0]; i < data.indexRange[1]+1; i++ ) {
+    this.chart.children[i].style.background = 'yellowgreen';
+  }
 };
 
-mergeSort.mergeAnimator = function(arrToSort, currentArr, indexToDivide) {
+mergeSort.swap = function(data) {
+  var bar = this.chart.children[data.indexPair[0]];
+  var barToSwap = this.chart.children[data.indexPair[1]];
+  var sortedDivSaver = [];
+  if ( this.tempIndex !== data.temp ) {
+    for( var i = 0; i < data.temp.length; i++ ) {
+      var nthBar = this.chart.children[data.temp[i]].cloneNode(true);
+      sortedDivSaver.push(nthBar);
+    }
+    for(var i = data.range[0]; i < data.range[1]+1; i++) {
+      var barToBeReplaced = this.chart.children[i];
+      this.chart.replaceChild(sortedDivSaver[0], barToBeReplaced);
+      sortedDivSaver.shift();
+    }
+  }
+  setTimeout(function(){
+    bar.style.background = 'yellow';
+    barToSwap.style.background = 'yellow';
+  }, this.count);
+  this.count += 500;
+  this.tempIndex = data.temp;
+};
+
+mergeSort.divide = function(data) {
+  var midBar = this.chart.children[data.mid];
+  midBar.style.margin = '10px 40px 10px 10px';
+};
+
+mergeSort.combine = function(data) {
+  for( var i = data.indexRange[0]; i < data.indexRange[1]; i++ ) {
+    var midBar = this.chart.children[i];
+    midBar.style.margin = '10px';
+  }
+};
+
+mergeSort.inplace = function(data) {
+  for ( var i = data.indexRange[0]; i < data.indexRange[1]+1; i++ ){
+    var barsInplace = this.chart.children[i];
+    barsInplace.style.background = 'purple';
+  }
+};
+
+mergeSort.nonCompare = function(data) {
+  for( var i = data.indexRange[0]; i < data.indexRange[1]+1; i++ ) {
+    var midBar = this.chart.children[i];
+    midBar.style.background = 'yellow';
+  }
 };
