@@ -251,7 +251,7 @@ function insertionSort(arrToSort) {
   setTimeout(function(){
     document.querySelector('.extraChart').remove();
     chosenBefore[0].classList.remove('chosenBar');
-    chosenBefore[0].classList.add('barsInChart');}, count);
+  chosenBefore[0].classList.add('barsInChart');}, count);
 
   return arrToSort;
 }
@@ -310,15 +310,15 @@ var mergeSort = {
   tempIndex: null
 };
 
-
-
 mergeSort.sort = function(arrToSort, range) {
   if( range === undefined ) {
     range = [0,arrToSort.length-1];
   }
+
   var mid = Math.floor(range[0]+(range[1]-range[0])/2);
   var left = [range[0], mid];
   var right = [mid+1, range[1]];
+
   if( range[1] - range[0] === 0 ) {
     return range;
   } else {
@@ -326,6 +326,7 @@ mergeSort.sort = function(arrToSort, range) {
       type: 'DIVIDE',
       mid: left[1]
     });
+
     return this.merger(this.sort(arrToSort, left), this.sort(arrToSort, right), arrToSort);
   }
 };
@@ -439,13 +440,16 @@ mergeSort.swap = function(data) {
   var bar = this.chart.children[data.indexPair[0]];
   var barToSwap = this.chart.children[data.indexPair[1]];
   var sortedDivSaver = [];
+
   if ( this.tempIndex !== data.temp ) {
     for( var i = 0; i < data.temp.length; i++ ) {
       var nthBar = this.chart.children[data.temp[i]].cloneNode(true);
+
       sortedDivSaver.push(nthBar);
     }
     for(var i = data.range[0]; i < data.range[1]+1; i++) {
       var barToBeReplaced = this.chart.children[i];
+
       this.chart.replaceChild(sortedDivSaver[0], barToBeReplaced);
       sortedDivSaver.shift();
     }
@@ -460,12 +464,14 @@ mergeSort.swap = function(data) {
 
 mergeSort.divide = function(data) {
   var midBar = this.chart.children[data.mid];
+
   midBar.style.margin = '10px 40px 10px 10px';
 };
 
 mergeSort.combine = function(data) {
   for( var i = data.indexRange[0]; i < data.indexRange[1]; i++ ) {
     var midBar = this.chart.children[i];
+
     midBar.style.margin = '10px';
   }
 };
@@ -473,6 +479,7 @@ mergeSort.combine = function(data) {
 mergeSort.inplace = function(data) {
   for ( var i = data.indexRange[0]; i < data.indexRange[1]+1; i++ ){
     var barsInplace = this.chart.children[i];
+
     barsInplace.style.background = 'purple';
   }
 };
@@ -480,6 +487,7 @@ mergeSort.inplace = function(data) {
 mergeSort.nonCompare = function(data) {
   for( var i = data.indexRange[0]; i < data.indexRange[1]+1; i++ ) {
     var midBar = this.chart.children[i];
+
     midBar.style.background = 'yellow';
   }
 };
