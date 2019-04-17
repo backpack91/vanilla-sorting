@@ -1,6 +1,6 @@
 # Vanilla Sorting
 
-4가지 정렬 알고리즘의 구동 방식을 웹으로 표현해내는 과제입니다. 상세 내용은 아래 TODO 부분을 참고해주세요.
+4가지 정렬 알고리즘의 구동 방식을 웹으로 표현해주는 프로그램을 구현했습니다.
 
 ## Setup
 
@@ -17,30 +17,33 @@ $ yarn dev (or npm run dev)
 # visit http://localhost:8080
 ```
 
-- HTML 수정: `index.ejs`를 수정하시면 됩니다.
-- JS 수정: `/app/index.js`를 수정하시면 됩니다.
-- CSS 수정: `/assets/styles/index.less`를 수정하시면 됩니다. (파일 형식을 `.scss`로 바꿔서 SCSS를 사용하여도 됩니다.)
+## Description
 
-## TODO
+4가지 정렬 알고리즘의 구동 방식을 시각적으로 확인할 수 있도록 표현했습니다.
 
-4가지 정렬 알고리즘의 구동 방식을 시각적으로 확인할 수 있도록 표현해야 합니다. 그리고 아래의 조건이 충족되어야 합니다.
+* 사용자는 우측 상단의 input창에 숫자를 입력할 수 있습니다.
+* 숫자들을 입력한 후, 사용자가 원하는 정렬 방식을 선택할 수 있습니다.
+* 정렬 방식을 선택한 후, 실행할 수 있는 "실행" 버튼을 클릭합니다.
 
-* 사용자가 "숫자"들을 최소 5개에서 최대 10개까지 선택할 수 있는 UI가 있어야 합니다.
-* 숫자들을 입력한 후, 사용자가 원하는 정렬 방식을 선택할 수 있어야 합니다.
-* 정렬 방식을 선택한 후, 실행할 수 있는 "실행" 버튼이 있어야 합니다.
-* 실행시킬 경우, 시각적으로 해당 정렬 로직이 어떤 식으로 작동되는지 보여주어야 합니다. (`/videos` 디렉토리 내부 영상 참고)
-* 숫자의 갯수가 충족되지 않았거나, 정렬 방식이 선택되지 않은 상황에서는 "실행"을 시킬 수 없어야 합니다.
-* 숫자가 아닌 값은 받을 수 없어야 합니다.
 
-### 정렬 알고리즘 종류
+## Challenges & Things to do
 
-아래 4가지의 정렬 방식이 모두 구현되어야 합니다. 각 알고리즘의 시간 복잡도에 대해 반드시 이해하셔야 합니다. (시간 복잡도 참고 링크: [Big-O Cheatsheet](http://bigocheatsheet.com/))
 
-1. [Bubble Sort](https://en.wikipedia.org/wiki/Bubble_sort)
-2. [Insertion Sort](https://en.wikipedia.org/wiki/Insertion_sort)
-3. [Merge Sort](https://en.wikipedia.org/wiki/Merge_sort)
-4. [Selection Sort](https://en.wikipedia.org/wiki/Selection_sort)
+- 정렬 알고리즘을 사용자에게 시각화하여 보여주는 과제였기 때문에 처음 접해보는 정렬 알고리즘을 정확하게 이해하기 위해 노력했습니다.
 
-## [webpack](https://webpack.js.org/)
-If you're not familiar with webpack, the [webpack-dev-server](https://webpack.js.org/configuration/dev-server/) will serve the static files in your build folder and watch your source files for changes.
-When changes are made the bundle will be recompiled. This modified bundle is served from memory at the relative path specified in publicPath.
+- 부트 캠프 코스 초반 과제였기 때문에 DOM을 다루는 것 자체가 익숙지 않아 시각적으로 HTML element에 변화를 주어 정렬시키는 것에서 시간이 많이 할애되었습니다.
+
+- Merge Sort의 구현이 까다로워 2-3일 정도의 시간이 할애되었는데 끝까지 포기하지 않고 문제를 해결해낸 경험이 귀중한 경험으로 기억됩니다.
+
+- 같은 문제를 해결함에 있어 동기들이 각자 다른 방식의 해결 방법을 가지고 해결하는 것이 신기했고, 그것을 공유하고 토론하는 것이 즐거웠습니다. 그러던 중 동기 한 명이 queue 구조를 접목해 문제를 해결하는 모습에 감탄했고 Merge Sort에서는 이전에 접근했던 방식이 아닌 queue 구조를 접목하여 코드 가독성과 유지 보수의 용이함을 높였습니다. 스스로 고민하는 시간, 그리고 그것들을 동료들과 공유하고 발전시켜나가는 것의 즐거움을 배웠습니다.
+
+- 일주일이라는 시간 안에 완성해야 하는 과제였기 때문에 기능 구현을 우선순위에 두었습니다. performance를 충분히 고려하지 못하였던 것이 아쉬움으로 남습니다.
+
+
+### Reference
+
+1. 시간복잡도: [Big-O Cheatsheet](http://bigocheatsheet.com/))
+2. [Bubble Sort](https://en.wikipedia.org/wiki/Bubble_sort)
+3. [Insertion Sort](https://en.wikipedia.org/wiki/Insertion_sort)
+4. [Merge Sort](https://en.wikipedia.org/wiki/Merge_sort)
+5. [Selection Sort](https://en.wikipedia.org/wiki/Selection_sort)
