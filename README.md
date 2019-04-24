@@ -2,6 +2,27 @@
 
 4가지 정렬 알고리즘의 구동 방식을 웹으로 표현해주는 프로그램을 구현했습니다.
 
+
+[Bubble Sort]
+
+![](gif/bubble-sort.gif)
+
+
+[Insertion Sort]
+
+![](gif/insertion-sort.gif)
+
+
+[Merge Sort]
+
+![](gif/merge-sort.gif)
+
+
+[Selection Sort]
+
+![](gif/selection-sort.gif)
+
+
 ## Setup
 
 Install dependencies
